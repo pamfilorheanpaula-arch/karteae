@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F2E4CC">
+    <title>Kartea - Shop & Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Lato:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="kartea.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ================================ -->
+<!-- LOGIN PAGE                       -->
+<!-- ================================ -->
+<div id="login-page" class="page-section" style="display: none;">
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-box">
+                <h3>Kartea Shop</h3>
+                <p id="role-status" style="font-weight: bold; margin-top: 0.5rem;"></p>
+                <p id="login-welcome" style="font-size:13px; color: var(--text-muted); margin-top:2px;"></p>
+            </div>
+            <div class="form-container">
+                <form id="loginform" onsubmit="login(event)">
+                    <label for="email">Email Address:</label><br>
+                    <input type="email" name="email" id="email" placeholder="email@gmail.com" required><br>
+                    <div class="form-group">
+                        <label for="password">Password:</label><br>
+                        <div class="password-wrap">
+                            <input type="password" name="password" id="password" placeholder="password123" autocomplete="off" required>
+                            <i class="fas fa-eye-slash toggle-eye"
+                                onclick="togglePassword('password', this)" tabindex="0"
+                                onkeypress="if(event.key==='Enter'){togglePassword('password', this)}"></i>
+                        </div>
+                    </div>
+                    <div id="error-message" class="error-message"></div>
+                    <input type="submit" value="Login" class="button"><br>
+                    <a href="#" onclick="switchPage('signup-page'); return false;" class="signup-link">Don't have an account? Sign up</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================ -->
+<!-- SIGNUP PAGE                      -->
+<!-- ================================ -->
+<div id="signup-page" class="page-section" style="display: none;">
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-box"><h3>Create an Account</h3></div>
+            <div class="form-container">
+                <form id="signupForm" onsubmit="register(event)">
+                    <label for="signup-username">Username:</label><br>
+                    <input type="text" name="signup-username" id="signup-username" placeholder="e.g. kriz123" required autocomplete="off"><br>
+                    <div id="username-status" style="font-size:12px; margin-top:4px; min-height:16px;"></div>
+                    <label for="signup-email">Email Address:</label><br>
+                    <input type="email" name="signup-email" id="signup-email" placeholder="email@gmail.com" required><br>
+                    <label for="signup-password">Password:</label><br>
+                    <div class="password-wrap">
+                        <input type="password" name="signup-password" id="signup-password" placeholder="Enter password" autocomplete="off" required>
+                        <i class="fas fa-eye-slash toggle-eye"
+                            onclick="togglePassword('signup-password', this)" tabindex="0"
+                            onkeypress="if(event.key==='Enter'){togglePassword('signup-password', this)}"></i>
+                    </div>
+                    <label for="signup-confirm">Confirm Password:</label><br>
+                    <div class="password-wrap">
+                        <input type="password" name="signup-confirm" id="signup-confirm" placeholder="Confirm password" autocomplete="off" required>
+                        <i class="fas fa-eye-slash toggle-eye"
+                            onclick="togglePassword('signup-confirm', this)" tabindex="0"
+                            onkeypress="if(event.key==='Enter'){togglePassword('signup-confirm', this)}"></i>
+                    </div>
+                    <input type="submit" value="Sign Up" class="button"><br>
+                    <a href="#" onclick="switchPage('login-page'); return false;" class="signup-link">Already have an account? Log in</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================ -->
+<!-- ADMIN PAGE                       -->
+<!-- ================================ -->
+<div id="admin-page" class="page-section" style="display: none;">
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-box">
+                <h3>Welcome Admin!</h3>
+                <p id="role-status-admin" style="font-weight: bold; margin-top: 0.5rem;"></p>
+            </div>
+            <div class="form-container">
+                <button onclick="logout()" class="button" style="margin-top: 0;">← Back to Login</button>
+                <hr style="margin: 20px 0; border: 1px solid #E8D5BC;">
+                <h2 style="font-family: 'Playfair Display', serif; margin-top: 20px; margin-bottom: 15px;">Create another admin</h2>
+                <form id="createAdminForm" onsubmit="createAdminAccount(event)">
+                    <label for="new-admin-email">Email:</label><br>
+                    <input type="email" id="new-admin-email" placeholder="newadmin@gmail.com" required><br>
+                    <label for="new-admin-password">Password:</label><br>
+                    <input type="password" id="new-admin-password" placeholder="Password" required><br>
+                    <button type="submit" class="button">Create Admin</button>
+                </form>
+                <div id="admin-message" style="margin-top: 10px; text-align: center; font-weight: bold;"></div>
+                <hr style="margin: 20px 0; border: 1px solid #E8D5BC;">
+                <h2 style="font-family: 'Playfair Display', serif; margin-top: 20px; margin-bottom: 15px;">Registered Users</h2>
+                <div id="users-list" style="background: #FDF6EC; padding: 15px; border-radius: 8px; margin-bottom: 15px; max-height: 300px; overflow-y: auto;">
+                    <p style="text-align: center; color: #9A7A5A;">No users registered yet</p>
+                </div>
+                <button onclick="logout()" class="button" style="background-color: #B83232;">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================ -->
+<!-- SHOP PAGE                        -->
+<!-- ================================ -->
+<div id="shop-page" class="page-section" style="display: none;">
+
+<!-- HEADER -->
+<header class="header">
+    <div class="header-container">
+        <div class="logo-section">
+            <a href="#" class="logo">
+                <img src="30860-removebg-preview.png" alt="Kartea" class="logo-img">
+                <span>Kartea</span>
+            </a>
+        </div>
+        <div class="search-section">
+            <form class="search-bar" action="#" method="GET">
+                <input type="text" name="query" class="search-input" placeholder="Search something..." aria-label="Search">
+                <button type="submit" class="search-btn" aria-label="Search button"><i class="fas fa-search"></i></button>
+            </form>
+            <div class="cart-indicator" aria-label="Cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count">0</span>
+            </div>
+
+            <!-- Profile Button -->
+            <div class="profile-wrap">
+                <button class="profile-btn" id="profileBtn" aria-expanded="false" aria-label="Profile menu">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="profile-menu" id="profileMenu">
+                    <button class="profile-menu-item" onclick="switchPage('account-page'); initAccountPage(); closeProfileMenu();">
+                        <i class="fas fa-user-circle"></i> Account
+                    </button>
+                    <button class="profile-menu-item" onclick="switchPage('orders-page'); renderOrderHistory(); closeProfileMenu();">
+                        <i class="fas fa-receipt"></i> Order History
+                    </button>
+                    <button class="profile-menu-item logout-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cart Box / Drawer -->
+            <div id="cart-box" class="cart-box" aria-hidden="true">
+                <div class="cart-header">
+                    <span>Your Cart</span>
+                    <button id="cart-close" aria-label="Close cart">×</button>
+                </div>
+                <div class="cart-items"></div>
+                <div class="cart-footer">
+                    <div class="cart-subtotal-row"><span>Subtotal</span><span>₱<span id="cart-subtotal">0</span></span></div>
+                    <div class="cart-subtotal-row"><span>Tax (12%)</span><span>₱<span id="cart-tax">0</span></span></div>
+                    <div class="cart-total"><span>Total</span><span>₱<span id="cart-total">0</span></span></div>
+                <div class="customer-contact-section">
+                    <label for="customer-contact">Contact Number: (Pick-up)</label>
+                    <input type="tel" id="customer-phone" name="customer-phone" placeholder="e.g. 09123456789" maxlength="11" required>
+                    <small style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">We'll contact you here when your order is ready for pick-up.</small>
+                </div>    
+                    <button id="checkout-btn" class="btn-checkout">Pay Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <nav class="sidebar" id="sidebar"></nav>
+    <main class="content" id="content">
+        <div class="items-container">
+            <!-- Mobile top tabs (hidden on desktop, rendered by JS) -->
+            <div class="mobile-tabs" id="mobile-tabs"></div>
+
+            <section class="category coffee"><h2>Coffee</h2><div class="items-grid">
+                <div class="item-frame"><div class="item-img-wrap"><img src="coffee1.jpg" alt="Midnight Roast" class="item-image"></div><div class="item-body"><h3 class="item-title">Midnight Roast</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="coffee2.jpg" alt="Velvet Espresso" class="item-image"></div><div class="item-body"><h3 class="item-title">Velvet Espresso</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="coffee3.jpg" alt="Caramel Moon Brew" class="item-image"></div><div class="item-body"><h3 class="item-title">Caramel Moon Brew</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱125</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="coffee4.jpg" alt="Dark Forest Coffee" class="item-image"></div><div class="item-body"><h3 class="item-title">Dark Forest Coffee</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="coffee5.jpg" alt="Sunrise Americano" class="item-image"></div><div class="item-body"><h3 class="item-title">Sunrise Americano</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="coffee6.jpg" alt="Maple Cream Coffee" class="item-image"></div><div class="item-body"><h3 class="item-title">Maple Cream Coffee</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱128</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="coffee7.jpg" alt="Hazelnut Velvet Coffee" class="item-image"></div><div class="item-body"><h3 class="item-title">Hazelnut Velvet Coffee</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱128</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+            </div></section>
+
+            <section class="category icetea"><h2>Iced Tea</h2><div class="items-grid">
+                <div class="item-frame"><div class="item-img-wrap"><img src="icetea1.jpg" alt="Glacier Citrus Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Glacier Citrus Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱85</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="icetea2.jpg" alt="Polar Honey Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Polar Honey Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱85</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="icetea3.jpg" alt="Blueberry Chill Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Blueberry Chill Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱90</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="icetea4.jpg" alt="Mango Ice Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Mango Ice Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱90</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="icetea5.jpg" alt="Raspberry Frost Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Raspberry Frost Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱90</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="icetea6.jpg" alt="Tropical Ice Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Tropical Ice Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱90</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="icetea7.jpg" alt="Cool G Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Cool G Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱85</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+            </div></section>
+
+            <section class="category hottea"><h2>Hot Tea</h2><div class="items-grid">
+                <div class="item-frame"><div class="item-img-wrap"><img src="hottea1.jpg" alt="Golden Honey Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Golden Honey Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱95</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="hottea2.jpg" alt="Calm Chamomile Brew" class="item-image"></div><div class="item-body"><h3 class="item-title">Calm Chamomile Brew</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱95</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="hottea3.jpg" alt="Lavender Dream Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Lavender Dream Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱95</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="hottea4.jpg" alt="Pure Leaf Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Pure Leaf Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱95</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="hottea5.jpg" alt="Forest Herbal Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Forest Herbal Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱95</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="hottea6.jpg" alt="Vanilla Spice Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Vanilla Spice Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱95</span><span class="item-tag hot">Hot</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+            </div></section>
+
+            <section class="category milktea"><h2>Milk Tea</h2><div class="items-grid">
+                <div class="item-frame"><div class="item-img-wrap"><img src="milktea1.jpg" alt="Brown Sugar Cloud Milk Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Brown Sugar Cloud Milk Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱105</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="milktea2.jpg" alt="Creamy Pearl Milk Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Creamy Pearl Milk Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱105</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="milktea3.jpg" alt="Vanilla Dream Milk Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Vanilla Dream Milk Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱105</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="milktea4.jpg" alt="Caramel Bubble Milk Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Caramel Bubble Milk Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱105</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="milktea5.jpg" alt="Honey Frost Milk Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Honey Frost Milk Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱105</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="milktea6.jpg" alt="Golden Cream Milk Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Golden Cream Milk Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱105</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="milktea7.jpg" alt="Matcha Cloud Milk Tea" class="item-image"></div><div class="item-body"><h3 class="item-title">Matcha Cloud Milk Tea</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱110</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+            </div></section>
+
+            <section class="category frappe"><h2>Frappe</h2><div class="items-grid">
+                <div class="item-frame"><div class="item-img-wrap"><img src="frappe1.jpg" alt="Chocolate Blizzard Frappe" class="item-image"></div><div class="item-body"><h3 class="item-title">Chocolate Blizzard Frappe</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="frappe2.jpg" alt="Mocha Glacier Frappe" class="item-image"></div><div class="item-body"><h3 class="item-title">Mocha Glacier Frappe</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="frappe3.jpg" alt="Vanilla Snow Frappe" class="item-image"></div><div class="item-body"><h3 class="item-title">Vanilla Snow Frappe</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="frappe4.jpg" alt="Cookies Blizzard Frappe" class="item-image"></div><div class="item-body"><h3 class="item-title">Cookies Blizzard Frappe</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱125</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="frappe5.jpg" alt="Strawberry Ice Frappe" class="item-image"></div><div class="item-body"><h3 class="item-title">Strawberry Ice Frappe</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="frappe6.jpg" alt="Matcha Snow Frappe" class="item-image"></div><div class="item-body"><h3 class="item-title">Matcha Snow Frappe</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱125</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+                <div class="item-frame"><div class="item-img-wrap"><img src="frappe7.jpg" alt="Mint Chocolate Frappe" class="item-image"></div><div class="item-body"><h3 class="item-title">Mint Chocolate Frappe</h3><div class="item-rating">⭐⭐⭐⭐⭐</div><div class="item-price-row"><span class="item-price">₱120</span><span class="item-tag cold">Cold</span></div><div class="item-qty-row"><button class="qty-btn qty-dec">−</button><span class="qty-num">1</span><button class="qty-btn qty-inc">+</button></div><div class="item-actions"><button class="btn-add-cart">Add to Cart</button><button class="btn-fav" aria-label="Add to favorites"><i class="far fa-heart"></i></button></div></div></div>
+            </div></section>
+
+        </div>
+    </main>
+</div>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="toast" id="toast"></div>
+</div><!-- End Shop Page -->
+
+<!-- ================================ -->
+<!-- ACCOUNT PAGE                     -->
+<!-- ================================ -->
+<div id="account-page" class="page-section" style="display: none;">
+    <div class="profile-inner-page">
+        <div class="profile-inner-wrap">
+            <button class="back-btn" onclick="switchPage('shop-page')">
+                <i class="fas fa-arrow-left"></i> Back to Shop
+            </button>
+            <div class="page-title">Account</div>
+            <div class="page-subtitle" id="account-subtitle">Manage your credentials and preferences</div>
+
+            <div class="profile-card">
+                <div class="profile-card-title">👤 Username</div>
+                <div class="pform-group">
+                    <label class="pform-label">Current Username</label>
+                    <div id="current-username-display" style="font-size:15px; font-weight:700; color:var(--brown); padding: 6px 0 10px;"></div>
+                </div>
+                <div class="pform-group">
+                    <label class="pform-label">New Username</label>
+                    <input class="pform-input" type="text" placeholder="e.g. kriz123" id="newUsername" autocomplete="off">
+                    <div id="new-username-status" style="font-size:12px; margin-top:5px; min-height:14px;"></div>
+                </div>
+                <button class="pbtn-primary" onclick="changeUsername()">Update Username</button>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-card-title">🔒 Change Password</div>
+                <div class="pform-group">
+                    <label class="pform-label">Current Password</label>
+                    <input class="pform-input" type="password" placeholder="••••••••" id="currentPw">
+                </div>
+                <div class="pform-group">
+                    <label class="pform-label">New Password</label>
+                    <input class="pform-input" type="password" placeholder="••••••••" id="newPw">
+                </div>
+                <div class="pform-group">
+                    <label class="pform-label">Confirm New Password</label>
+                    <input class="pform-input" type="password" placeholder="••••••••" id="confirmPw">
+                </div>
+                <button class="pbtn-primary" onclick="changePassword()">Update Password</button>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-card-title">🎨 Theme Color</div>
+                <div class="theme-options">
+                    <button class="theme-opt active" id="theme-warm" onclick="setTheme('warm')">
+                        <div class="theme-swatch swatch-warm"></div>
+                        Warm
+                    </button>
+                    <button class="theme-opt" id="theme-white" onclick="setTheme('white')">
+                        <div class="theme-swatch swatch-white"></div>
+                        White
+                    </button>
+                    <button class="theme-opt" id="theme-dark" onclick="setTheme('dark')">
+                        <div class="theme-swatch swatch-dark"></div>
+                        Dark
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================ -->
+<!-- ORDER HISTORY PAGE               -->
+<!-- ================================ -->
+<div id="orders-page" class="page-section" style="display: none;">
+    <div class="profile-inner-page">
+        <div class="profile-inner-wrap">
+            <button class="back-btn" onclick="switchPage('shop-page')">
+                <i class="fas fa-arrow-left"></i> Back to Shop
+            </button>
+            <div class="page-title">Order History</div>
+            <div class="page-subtitle">Your recent purchases</div>
+
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+                <button class="clear-history-btn" onclick="clearOrderHistory()" id="clear-history-btn" style="display: none;">
+                    <i class="fas fa-trash-alt"></i> Clear History
+                </button>
+            </div>
+
+            <div id="order-history-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================ -->
+<!-- FAVORITES PAGE                   -->
+<!-- ================================ -->
+<div id="favorites-page" class="page-section" style="display: none;">
+    <div class="profile-inner-page">
+        <div class="profile-inner-wrap">
+            <button class="back-btn" onclick="switchPage('shop-page')">
+                <i class="fas fa-arrow-left"></i> Back to Shop
+            </button>
+            <div class="page-title">Favorites</div>
+            <div class="page-subtitle">Your saved drinks</div>
+
+            <div class="fav-page-header">
+                <span class="fav-item-count" id="fav-item-count"></span>
+                <button class="clear-fav-btn" onclick="clearFavorites()" id="clear-fav-btn" style="display: none;">
+                    <i class="fas fa-heart-broken"></i> Clear All
+                </button>
+            </div>
+
+            <div id="favorites-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================ -->
+<!-- RECEIPT PAGE                     -->
+<!-- ================================ -->
+<div id="receipt-page" class="page-section receipt-page" style="display: none;">
+    <div class="receipt-card">
+        <div class="receipt-title">Kartea</div>
+        <div class="receipt-subtitle">Thank you for your order!</div>
+        <div class="receipt-date">Date: <span id="receipt-date"></span></div>
+        <div id="receipt-items"></div>
+        <hr class="receipt-divider">
+        <div class="receipt-total"><span>Total:</span><span>₱<span id="grand-total">0</span></span></div>
+        <div class="btn-group">
+            <button class="btn-receipt btn-primary" onclick="window.print()">Print Receipt</button>
+            <button class="btn-receipt btn-feedback" onclick="switchPage('feedback-page'); initFeedbackPage();">
+                <i class="fas fa-star"></i> Leave Feedback
+            </button>
+            <button class="btn-receipt btn-secondary" onclick="switchPage('shop-page')">Buy Again</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================ -->
+<!-- FEEDBACK PAGE                    -->
+<!-- ================================ -->
+<div id="feedback-page" class="page-section" style="display: none;">
+    <div class="profile-inner-page">
+        <div class="profile-inner-wrap">
+            <button class="back-btn" onclick="switchPage('shop-page')">
+                <i class="fas fa-arrow-left"></i> Back to Shop
+            </button>
+            <div class="page-title">Leave Feedback</div>
+            <div class="page-subtitle">How was your experience?</div>
+
+            <div class="profile-card">
+                <div class="profile-card-title">⭐ Rate Your Experience</div>
+                <div class="star-rating" id="star-rating">
+                    <button class="star-btn" data-val="1" aria-label="1 star">★</button>
+                    <button class="star-btn" data-val="2" aria-label="2 stars">★</button>
+                    <button class="star-btn" data-val="3" aria-label="3 stars">★</button>
+                    <button class="star-btn" data-val="4" aria-label="4 stars">★</button>
+                    <button class="star-btn" data-val="5" aria-label="5 stars">★</button>
+                </div>
+                <div class="pform-group" style="margin-top:14px;">
+                    <label class="pform-label">Your Comment</label>
+                    <textarea class="pform-input" id="feedback-comment" rows="4" placeholder="Tell us about your experience..." style="resize:vertical; height:100px;"></textarea>
+                </div>
+                <button class="pbtn-primary" onclick="submitFeedback()">Submit Feedback</button>
+                <div id="feedback-msg" style="margin-top:10px; font-size:13px; font-weight:700; text-align:center; min-height:18px;"></div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-card-title">💬 What Others Are Saying</div>
+                <div id="feedback-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="kartea.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const role = getRole();
+        const email = getCurrentUser();
+        const statusEl = document.getElementById('role-status');
+        if (statusEl) statusEl.innerText = getLoginStatusText();
+        const statusElAdmin = document.getElementById('role-status-admin');
+        if (statusElAdmin) statusElAdmin.innerText = getLoginStatusText();
+        if (role === 'admin' && email) { switchPage('admin-page'); updateUsersList(); }
+        else if (role === 'user' && email) {
+            loadCart(); updateCartIndicator(); renderCartBox();
+            loadFavorites(); updateFavIndicator(); syncFavButtons();
+            switchPage('shop-page');
+        }
+        else { switchPage('login-page'); }
+    });
+
+    function updateUsersList() {
+        const users = getUsers();
+        const listEl = document.getElementById('users-list');
+        if (!listEl) return;
+        if (users.length === 0) { listEl.innerHTML = '<p style="text-align:center;color:#9A7A5A;">No users registered yet</p>'; return; }
+        listEl.innerHTML = users.map((user, i) => `
+            <div style="padding:10px;border-bottom:1px solid #E8D5BC;display:flex;justify-content:space-between;align-items:center;">
+                <div><strong>${user.email}</strong><br><span style="font-size:12px;color:#9A7A5A;">Role: ${user.role}</span></div>
+                <button onclick="deleteUser(${i})" style="background:#B83232;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">Delete</button>
+            </div>`).join('');
+    }
+    function deleteUser(index) {
+        if (confirm('Delete this user?')) { const users = getUsers(); users.splice(index, 1); setUsers(users); updateUsersList(); }
+    }
+    function createAdminAccount(event) {
+        event.preventDefault();
+        const email = document.getElementById('new-admin-email').value.trim().toLowerCase();
+        const password = document.getElementById('new-admin-password').value.trim();
+        const msgEl = document.getElementById('admin-message');
+        if (!email || !password) { msgEl.innerText = 'Please fill in both fields.'; msgEl.style.color = '#B83232'; return; }
+        const existing = getUsers().find(u => u.email === email);
+        if (existing) { msgEl.innerText = 'A user with that email already exists.'; msgEl.style.color = '#B83232'; return; }
+        addUser({ email, password, role: 'admin' });
+        msgEl.innerText = 'New admin account created successfully!'; msgEl.style.color = '#3A7A3A';
+        document.getElementById('new-admin-email').value = '';
+        document.getElementById('new-admin-password').value = '';
+        updateUsersList();
+        setTimeout(() => { msgEl.innerText = ''; }, 3000);
+    }
+</script>
+</body>
+</html>
