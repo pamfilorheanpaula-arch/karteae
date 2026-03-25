@@ -323,6 +323,7 @@ function renderCartBox() {
     const itemsDiv = box.querySelector('.cart-items');
     itemsDiv.innerHTML = '';
     let totalCost = 0;
+    let itemNo = 1;
 
     for (const [title, data] of Object.entries(cartCounts)) {
         const count = Number(data.count) || 0;
@@ -334,7 +335,7 @@ function renderCartBox() {
         line.className = 'cart-item';
         line.innerHTML = `
             <div class="cart-item-left">
-                <div class="cart-item-no">#${itemNo++}</div>
+                <div class="cart-item-no">#${itemNo}</div>
                 <div class="cart-item-info">
                     <div class="cart-item-name">${title}</div>
                     <div class="cart-item-unit">₱${unitPrice.toFixed(2)} each</div>
@@ -348,6 +349,8 @@ function renderCartBox() {
                 </div>
                 <div class="cart-line-total">₱${lineTotal.toFixed(2)}</div>
             </div>`;
+        itemNo++;
+
 
         line.querySelectorAll('.cart-qty-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -432,7 +435,8 @@ document.addEventListener('click', function(e) {
 
     btn.textContent = `✓ Added ${qty}!`;
     btn.disabled = true;
-    setTimeout(() => { btn.textContent = 'Add to Cart'; btn.disabled = false; }, 1400);
+    toggleCartBox(true);
+    setTimeout(() => { btn.textContent = 'Add to Cart'; btn.disabled = false; }, 3000);
 });
 
 // Init cart on load
@@ -479,10 +483,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 history.unshift(newOrder);
                 localStorage.setItem(userKey('orderHistory'), JSON.stringify(history));
 
+                localStorage.setItem(userKey('orderPhone'), customerPhone);
                 cartCounts = {}; saveCart(); updateCartIndicator(); renderCartBox(); toggleCartBox(false);
                 displayReceipt(); switchPage('receipt-page');
             } else { alert('Your cart is empty!'); }
         });
+        const customerPhone = document.getElementById('customer-phone');
+        if (!customerPhone.value.trim() || !/^09\\d{9}$/.test(customerPhone.value.replace(/[-\s]/g, ''))) {
+            alert('Please enter a valid PH number for pick-up.');
+            customerPhone.focus();
+            return;
+        }
                 const phoneInput = document.getElementById('customer-phone');
         if (phoneInput) {
             alert ('Please enter your contact number for pick-up orders. We will contact you when your order is ready.');
